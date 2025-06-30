@@ -21,17 +21,14 @@ void floydWarshall::FloydWarshall() {
     vector<vector<int>> dist = adjMatrix;
 
     // Ba vòng lặp: duyệt qua đỉnh trung gian k, điểm xuất phát i và điểm kết thúc j
-    for (int k = 0; k < V; ++k) {
-        for (int i = 0; i < V; ++i) {
+    for (int k = 0; k < V; k++) {
+        for (int i = 0; i < V; i++) {
             if (dist[i][k] == INF) continue; // Không cần xét nếu không đi từ i đến k
-            for (int j = 0; j < V; ++j) {
+            for (int j = 0; j < V; j++) {
                 if (dist[k][j] == INF) continue; // Không cần xét nếu không đi từ k đến j
 
-                // Kiểm tra xem đường đi qua k có ngắn hơn không
-                int viaK = dist[i][k] + dist[k][j];
-                if (viaK < dist[i][j]) {
-                    dist[i][j] = viaK;
-                }
+                // Cập nhật khoảng cách nếu đi qua k ngắn hơn
+                dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
             }
         }
     }
@@ -46,14 +43,14 @@ void floydWarshall::FloydWarshall() {
 void floydWarshall::printMatrix(const vector<vector<int>>& dist) {
     // In hàng tiêu đề (các đỉnh đích)
     cout << setw(6) << "";
-    for (int j = 0; j < V; ++j)
+    for (int j = 0; j < V; j++)
         cout << setw(6) << j;
     cout << "\n" << string(7 + 6 * V, '-') << "\n";
 
     // In từng hàng (từng đỉnh xuất phát)
-    for (int i = 0; i < V; ++i) {
+    for (int i = 0; i < V; i++) {
         cout << setw(6) << i << "|";
-        for (int j = 0; j < V; ++j) {
+        for (int j = 0; j < V; j++) {
             if (dist[i][j] == INF)
                 cout << setw(6) << "INF";
             else

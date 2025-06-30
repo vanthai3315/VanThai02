@@ -7,6 +7,7 @@ using namespace std;
 
 // Hàm menu chính để người dùng tương tác
 void menu(JohnsonAlgorithm& johnson, floydWarshall& floyd) {
+	bool check1 = false, check2 = false; // kiểm tra trước khi chạy thuật toán Johnson và floyd-warshall thì đã nhập dữ liệu chưa.
 	while (true) {
 		system("cls");
 		// In menu lựa chọn
@@ -31,10 +32,10 @@ void menu(JohnsonAlgorithm& johnson, floydWarshall& floyd) {
 				cout << "2. Input data from file" << endl;
 				cout << "3. Exit" << endl;
 				cout << " ---------------------------- " << endl;
-				int choice;
-				cout << "Enter your choice: "; cin >> choice;
+				int subChoice;
+				cout << "Enter your choice: "; cin >> subChoice;
 
-				if (choice == 1) {
+				if (subChoice == 1) {
 					// Nhập tay
 					int V, E;
 					cout << "+ Number of vertices: "; cin >> V;
@@ -48,10 +49,11 @@ void menu(JohnsonAlgorithm& johnson, floydWarshall& floyd) {
 						cout << "Weight: ";       cin >> w;
 						johnson.addEdge(u, v, w);
 					}
+					check1 = true; // đánh dấu đã nhập dữ liệu xong 
 					cout << "Johnson data entry complete\n";
 					system("pause");
 				}
-				else if (choice == 2) {
+				else if (subChoice == 2) {
 					// Nhập từ file
 					int V, E;
 					ifstream inFile("Data.txt");
@@ -63,6 +65,7 @@ void menu(JohnsonAlgorithm& johnson, floydWarshall& floyd) {
 							inFile >> u >> v >> w;
 							johnson.addEdge(u, v, w);
 						}
+						check1 = true; // đánh dấu đã nhập dữ liệu xong 
 						cout << "Data successfully loaded from file!" << endl;
 					}
 					else {
@@ -84,10 +87,10 @@ void menu(JohnsonAlgorithm& johnson, floydWarshall& floyd) {
 				cout << "2. Input data from file" << endl;
 				cout << "3. Exit" << endl;
 				cout << " ---------------------------- " << endl;
-				int choice;
-				cout << "Enter your choice: "; cin >> choice;
+				int subChoice;
+				cout << "Enter your choice: "; cin >> subChoice;
 
-				if (choice == 1) {
+				if (subChoice == 1) {
 					int V, E;
 					cout << "+ Number of vertices: "; cin >> V;
 					cout << "+ Number of edges: ";    cin >> E;
@@ -100,10 +103,11 @@ void menu(JohnsonAlgorithm& johnson, floydWarshall& floyd) {
 						cout << "Weight: ";       cin >> w;
 						floyd.addEdge(u, v, w);
 					}
+					check2 = true; // đánh dấu đã nhập dữ liệu xong 
 					cout << "floydWarshall data entry complete\n";
 					system("pause");
 				}
-				else if (choice == 2) {
+				else if (subChoice == 2) {
 					int V, E;
 					ifstream inFile("Data.txt");
 					if (inFile.is_open()) {
@@ -114,6 +118,7 @@ void menu(JohnsonAlgorithm& johnson, floydWarshall& floyd) {
 							inFile >> u >> v >> w;
 							floyd.addEdge(u, v, w);
 						}
+						check2 = true; // đánh dấu đã nhập dữ liệu xong 
 						cout << "Data successfully loaded from file!" << endl;
 					}
 					else {
@@ -128,15 +133,20 @@ void menu(JohnsonAlgorithm& johnson, floydWarshall& floyd) {
 
 		// Chạy Johnson
 		else if (choice == 3) {
-			int choice;
+			if (!check1) {
+				cout << "Please choose option 1 to enter items first." << endl;
+				system("pause");
+				continue;
+			}
+			int subChoice;
 			cout << "Would you like to print all shortest paths?" << endl;
 			cout << " --------------------------- " << endl;
 			cout << "1. Yes, print all paths." << endl;
 			cout << "0. No, skip printing." << endl;
 			cout << " --------------------------- " << endl;
 			cout << "Your choice: ";
-			cin >> choice;
-			johnson.show = choice;
+			cin >> subChoice;
+			johnson.show = subChoice;
 
 			// Đo thời gian thực thi
 			double time = measureExecutionTime(&JohnsonAlgorithm::Johnson, &johnson);
@@ -146,14 +156,20 @@ void menu(JohnsonAlgorithm& johnson, floydWarshall& floyd) {
 
 		// Chạy Floyd-Warshall
 		else if (choice == 4) {
-			int choice;
+			if (!check2) {
+				cout << "Please choose option 2 to enter items first." << endl;
+				system("pause");
+				continue;
+			}
+			int subChoice;
 			cout << "Would you like to print all shortest paths?" << endl;
 			cout << " --------------------------- " << endl;
 			cout << "1. Yes, print all paths." << endl;
 			cout << "0. No, skip printing." << endl;
 			cout << " --------------------------- " << endl;
-			cin >> choice;
-			floyd.show = choice;
+			cout << "Your choice: ";
+			cin >> subChoice;
+			floyd.show = subChoice;
 
 			double time = measureExecutionTime(&floydWarshall::FloydWarshall, &floyd);
 			cout << "\nExecution time of Floyd-Warshall Algorithm: " << time << " ms" << endl;
@@ -195,15 +211,15 @@ void menu(JohnsonAlgorithm& johnson, floydWarshall& floyd) {
 			cout << "Johnson and Floyd - Warshall data entry complete\n";
 
 			// Hỏi có in đường đi không
-			int choice;
+			int subChoice;
 			cout << "\nWould you like to print all shortest paths?" << endl;
 			cout << " --------------------------- " << endl;
 			cout << "1. Yes, print all paths." << endl;
 			cout << "0. No, skip printing." << endl;
 			cout << " --------------------------- " << endl;
-			cin >> choice;
-			johnson.show = choice;
-			floyd.show = choice;
+			cin >> subChoice;
+			johnson.show = subChoice;
+			floyd.show = subChoice;
 
 			double timeJohnson = measureExecutionTime(&JohnsonAlgorithm::Johnson, &johnson);
 			double timeFloyd = measureExecutionTime(&floydWarshall::FloydWarshall, &floyd);
