@@ -4,7 +4,7 @@ const int INF = 1000000000;  // Giá trị đại diện cho vô cùng (không c
 
 // Constructor: Khởi tạo ma trận kề với trọng số vô hạn, trừ đường chéo là 0
 floydWarshall::floydWarshall(int vertex) : V(vertex) {
-    adjMatrix.assign(V, vector<int>(V, INF));   // Tạo ma trận V x V toàn INF
+    adjMatrix.assign(V, vector<long long>(V, INF));   // Tạo ma trận V x V toàn INF
     for (int i = 0; i < V; i++) {
         adjMatrix[i][i] = 0;                    // Khoảng cách từ i đến i là 0
     }
@@ -18,7 +18,7 @@ void floydWarshall::addEdge(int start, int end, int weight) {
 // Thuật toán Floyd-Warshall: tìm đường đi ngắn nhất giữa mọi cặp đỉnh
 void floydWarshall::FloydWarshall() {
     // Sao chép ma trận kề sang ma trận khoảng cách ban đầu
-    vector<vector<int>> dist = adjMatrix;
+    vector<vector<long long>> dist = adjMatrix;
 
     // Ba vòng lặp: duyệt qua đỉnh trung gian k, điểm xuất phát i và điểm kết thúc j
     for (int k = 0; k < V; k++) {
@@ -40,7 +40,7 @@ void floydWarshall::FloydWarshall() {
 }
 
 // Hàm hỗ trợ: In ma trận khoảng cách ra màn hình
-void floydWarshall::printMatrix(const vector<vector<int>>& dist) {
+void floydWarshall::printMatrix(const vector<vector<long long>>& dist) {
     // In hàng tiêu đề (các đỉnh đích)
     cout << setw(6) << "";
     for (int j = 0; j < V; j++)

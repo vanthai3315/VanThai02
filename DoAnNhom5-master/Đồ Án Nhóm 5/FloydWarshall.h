@@ -6,7 +6,7 @@ using namespace std;
 class floydWarshall {
 private:
 	int V;
-	vector<vector<int>> adjMatrix;
+	vector<vector<long long>> adjMatrix;
 
 public:
 	int show = 0; // Lựa chọn có hiện thị kết quả ra hay không, giá trị mặc định là không
@@ -21,7 +21,7 @@ public:
 	void FloydWarshall();
 
 	// Hàm hỗ trợ: In ma trận khoảng cách ra màn hình
-	void printMatrix(const vector<vector<int>>& dist);
+	void printMatrix(const vector<vector<long long>>& dist);
 
 	// Hàm đo bộ nhớ sử dụng
 	int memory();

@@ -33,3 +33,4 @@ vector<tuple<int, int, int>> generateRandomGraph(int V, bool isDense)
 
     return edges; // Trả về danh sách các cạnh
 }
+

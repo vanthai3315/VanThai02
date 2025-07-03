@@ -13,13 +13,15 @@ private:
 	int V;
 	vector<vector<pair<int, int>>> adjList;
 	vector<Edge> edges;
-	vector<int> potential;
+	vector<long long> potential;
 
 public:
 	int show = 0;  // Lựa chọn có hiện thị kết quả ra hay không, giá trị mặc định là không
 
 	// Constructor: Khởi tạo số đỉnh và cấu trúc dữ liệu
 	JohnsonAlgorithm(int vertex);
+
+	void reset();
 
 	// Thêm một cạnh vào danh sách cạnh
 	void addEdge(int start, int end, int weight);

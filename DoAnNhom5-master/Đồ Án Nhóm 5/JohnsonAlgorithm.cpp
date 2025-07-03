@@ -6,6 +6,12 @@ JohnsonAlgorithm::JohnsonAlgorithm(int vertex) : V(vertex) {
     potential.resize(V + 1, INT_MAX);         // Mảng potential để lưu kết quả từ Bellman-Ford
 }
 
+
+void JohnsonAlgorithm::reset() {
+    edges.clear();                                  // Xoá danh sách cạnh
+    adjList.assign(V + 1, {});                      // Xoá danh sách kề
+    fill(potential.begin(), potential.end(), INT_MAX); // Reset mảng tiềm năng
+}
 // Thêm một cạnh vào danh sách cạnh
 void JohnsonAlgorithm::addEdge(int start, int end, int weight) {
     edges.push_back(Edge{ start, end, weight });
