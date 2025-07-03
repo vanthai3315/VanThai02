@@ -7,11 +7,6 @@ JohnsonAlgorithm::JohnsonAlgorithm(int vertex) : V(vertex) {
 }
 
 
-void JohnsonAlgorithm::reset() {
-    edges.clear();                                  // Xoá danh sách cạnh
-    adjList.assign(V + 1, {});                      // Xoá danh sách kề
-    fill(potential.begin(), potential.end(), LLONG_MAX); // Reset mảng tiềm năng
-}
 // Thêm một cạnh vào danh sách cạnh
 void JohnsonAlgorithm::addEdge(int start, int end, int weight) {
     edges.push_back(Edge{ start, end, weight });
@@ -59,6 +54,7 @@ void JohnsonAlgorithm::reweightEdges() {
 
 // Tạo danh sách kề từ danh sách cạnh (sau khi đã reweight)
 void JohnsonAlgorithm::AdjacencyList() {
+    adjList.assign(V + 1, {}); // Reset để tránh trùng cạnh
     for (Edge e : edges) {
         adjList[e.start].push_back({ e.end, e.weight });
     }
@@ -66,28 +62,26 @@ void JohnsonAlgorithm::AdjacencyList() {
 
 // Dijkstra: Tìm đường đi ngắn nhất từ 1 đỉnh đến các đỉnh khác
 void JohnsonAlgorithm::Dijkstra(int src) {
-    priority_queue < pair<long long, int>, vector < pair<long long, int>>, greater<pair<long long, int>>> pq;
-    vector<long long> disc(V, LLONG_MAX);  // Distance từ src đến các đỉnh
-    vector<int> parent(V, -1);     // Mảng truy vết đường đi
-    vector<bool> check(V, false);  // Kiểm tra đỉnh đã duyệt
+    priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> pq;
+    vector<long long> disc(V, LLONG_MAX);
+    vector<int> parent(V, -1);
     disc[src] = 0;
     pq.push({ 0, src });
 
     while (!pq.empty()) {
-        pair<int, int> top = pq.top(); pq.pop();
-        int weight = top.first, start = top.second;
-        if (check[start]) continue;
-        check[start] = true;
-
+        pair<long long, int> top = pq.top(); pq.pop();
+        long long weight = top.first, start = top.second;
+        if (weight > disc[start]) continue;
         for (pair<int, int> x : adjList[start]) {
-            int end = x.first, Weight = x.second;
-            if (!check[end] && disc[end] > disc[start] + Weight) {
-                disc[end] = disc[start] + Weight;
-                parent[end] = start;
-                pq.push({ disc[end], end });
-            }
-        }
+                    int end = x.first, Weight = x.second;
+                    if (disc[end] > disc[start] + Weight) {
+                        disc[end] = disc[start] + Weight;
+                        parent[end] = start;
+                        pq.push({ disc[end], end });
+                    }
+                }
     }
+
     if (show) print(src, parent, disc);
 }
 
@@ -160,7 +154,7 @@ int JohnsonAlgorithm::memory()
     int memory_edges = edges.size() * sizeof(Edge);
 
     // Bộ nhớ dùng cho mảng trọng số phụ (potential)
-    int memory_potential = potential.size() * sizeof(int);
+    int memory_potential = potential.size() * sizeof(long long);
 
     // Tổng bộ nhớ
     return memory_adjList + memory_edges + memory_potential;

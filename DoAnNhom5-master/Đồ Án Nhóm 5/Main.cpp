@@ -148,7 +148,6 @@ void menu(JohnsonAlgorithm& johnson, floydWarshall& floyd) {
 			cin >> subChoice;
 			johnson.show = subChoice;
 
-			johnson.reset(); // reset dữ liệu trước khi chạy lại nếu cần
 			// Đo thời gian thực thi
 			double time = measureExecutionTime(&JohnsonAlgorithm::Johnson, &johnson);
 			cout << "\nExecution time of Johnson's Algorithm: " << time << " ms" << endl;
@@ -222,7 +221,6 @@ void menu(JohnsonAlgorithm& johnson, floydWarshall& floyd) {
 			johnson.show = subChoice;
 			floyd.show = subChoice;
 
-			johnson.reset(); // reset dữ liệu trước khi chạy lại nếu cần
 
 			double timeJohnson = measureExecutionTime(&JohnsonAlgorithm::Johnson, &johnson);
 			double timeFloyd = measureExecutionTime(&floydWarshall::FloydWarshall, &floyd);

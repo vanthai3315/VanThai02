@@ -15,25 +15,22 @@ void floydWarshall::addEdge(int start, int end, int weight) {
 
 // Thuật toán Floyd-Warshall: tìm đường đi ngắn nhất giữa mọi cặp đỉnh
 void floydWarshall::FloydWarshall() {
-    // Sao chép ma trận kề sang ma trận khoảng cách ban đầu
-    vector<vector<long long>> dist = adjMatrix;
-
     // Ba vòng lặp: duyệt qua đỉnh trung gian k, điểm xuất phát i và điểm kết thúc j
     for (int k = 0; k < V; k++) {
         for (int i = 0; i < V; i++) {
-            if (dist[i][k] == LLONG_MAX) continue; // Không cần xét nếu không đi từ i đến k
+            if (adjMatrix[i][k] == LLONG_MAX) continue; // Không cần xét nếu không đi từ i đến k
             for (int j = 0; j < V; j++) {
-                if (dist[k][j] == LLONG_MAX) continue; // Không cần xét nếu không đi từ k đến j
+                if (adjMatrix[k][j] == LLONG_MAX) continue; // Không cần xét nếu không đi từ k đến j
 
                 // Cập nhật khoảng cách nếu đi qua k ngắn hơn
-                dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+                adjMatrix[i][j] = min(adjMatrix[i][j], adjMatrix[i][k] + adjMatrix[k][j]);
             }
         }
     }
     if (show) {
         // In ma trận khoảng cách kết quả
         cout << "\nAll pairs shortest paths (Floyd–Warshall):\n";
-        printMatrix(dist);
+        printMatrix(adjMatrix);
     }
 }
 
@@ -72,7 +69,7 @@ int floydWarshall::memory()
     // Cộng thêm chi phí cho từng phần tử bên trong (các int trong từng hàng)
     for (const auto& row : adjMatrix)
     {
-        memory_matrix += row.size() * sizeof(int);
+        memory_matrix += row.size() * sizeof(long long);
     }
 
     // Trả về tổng bộ nhớ đã tính
