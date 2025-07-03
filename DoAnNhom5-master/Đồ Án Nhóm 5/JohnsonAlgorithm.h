@@ -43,7 +43,7 @@ public:
 	void Dijkstra(int src);
 
 	// In kết quả đường đi từ src
-	void print(int src, vector<int>& parent, vector<int>& disc); 
+	void print(int src, vector<int>& parent, vector<long long>& disc); 
 
 	// Thuật toán Johnson chính: kết hợp tất cả bước
 	void Johnson();

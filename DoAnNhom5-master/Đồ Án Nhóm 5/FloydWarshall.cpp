@@ -1,10 +1,8 @@
 ﻿#include "FloydWarshall.h"
 
-const int INF = 1000000000;  // Giá trị đại diện cho vô cùng (không có đường đi trực tiếp)
-
 // Constructor: Khởi tạo ma trận kề với trọng số vô hạn, trừ đường chéo là 0
 floydWarshall::floydWarshall(int vertex) : V(vertex) {
-    adjMatrix.assign(V, vector<long long>(V, INF));   // Tạo ma trận V x V toàn INF
+    adjMatrix.assign(V, vector<long long>(V, LLONG_MAX));   // Tạo ma trận V x V toàn LLONG_MAX
     for (int i = 0; i < V; i++) {
         adjMatrix[i][i] = 0;                    // Khoảng cách từ i đến i là 0
     }
@@ -23,9 +21,9 @@ void floydWarshall::FloydWarshall() {
     // Ba vòng lặp: duyệt qua đỉnh trung gian k, điểm xuất phát i và điểm kết thúc j
     for (int k = 0; k < V; k++) {
         for (int i = 0; i < V; i++) {
-            if (dist[i][k] == INF) continue; // Không cần xét nếu không đi từ i đến k
+            if (dist[i][k] == LLONG_MAX) continue; // Không cần xét nếu không đi từ i đến k
             for (int j = 0; j < V; j++) {
-                if (dist[k][j] == INF) continue; // Không cần xét nếu không đi từ k đến j
+                if (dist[k][j] == LLONG_MAX) continue; // Không cần xét nếu không đi từ k đến j
 
                 // Cập nhật khoảng cách nếu đi qua k ngắn hơn
                 dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
@@ -51,7 +49,7 @@ void floydWarshall::printMatrix(const vector<vector<long long>>& dist) {
     for (int i = 0; i < V; i++) {
         cout << setw(6) << i << "|";
         for (int j = 0; j < V; j++) {
-            if (dist[i][j] == INF)
+            if (dist[i][j] == LLONG_MAX)
                 cout << setw(6) << "INF";
             else
                 cout << setw(6) << dist[i][j];

@@ -3,14 +3,14 @@
 // Constructor: Khởi tạo số đỉnh và cấu trúc dữ liệu
 JohnsonAlgorithm::JohnsonAlgorithm(int vertex) : V(vertex) {
     adjList.resize(V + 1);                    // Danh sách kề (dùng cho Dijkstra)
-    potential.resize(V + 1, INT_MAX);         // Mảng potential để lưu kết quả từ Bellman-Ford
+    potential.resize(V + 1, LLONG_MAX);         // Mảng potential để lưu kết quả từ Bellman-Ford
 }
 
 
 void JohnsonAlgorithm::reset() {
     edges.clear();                                  // Xoá danh sách cạnh
     adjList.assign(V + 1, {});                      // Xoá danh sách kề
-    fill(potential.begin(), potential.end(), INT_MAX); // Reset mảng tiềm năng
+    fill(potential.begin(), potential.end(), LLONG_MAX); // Reset mảng tiềm năng
 }
 // Thêm một cạnh vào danh sách cạnh
 void JohnsonAlgorithm::addEdge(int start, int end, int weight) {
@@ -32,7 +32,7 @@ bool JohnsonAlgorithm::BellmanFord() {
         bool finish = true;
         for (Edge x : edges) {
             int start = x.start, end = x.end, weight = x.weight;
-            if (potential[start] < INT_MAX && potential[end] > potential[start] + weight) {
+            if (potential[start] < LLONG_MAX && potential[end] > potential[start] + weight) {
                 potential[end] = potential[start] + weight;
                 finish = false;
             }
@@ -43,7 +43,7 @@ bool JohnsonAlgorithm::BellmanFord() {
     // Kiểm tra chu trình âm
     for (Edge x : edges) {
         int start = x.start, end = x.end, weight = x.weight;
-        if (potential[start] < INT_MAX && potential[end] > potential[start] + weight) {
+        if (potential[start] < LLONG_MAX && potential[end] > potential[start] + weight) {
             return false;
         }
     }
@@ -66,8 +66,8 @@ void JohnsonAlgorithm::AdjacencyList() {
 
 // Dijkstra: Tìm đường đi ngắn nhất từ 1 đỉnh đến các đỉnh khác
 void JohnsonAlgorithm::Dijkstra(int src) {
-    priority_queue < pair<int, int>, vector < pair<int, int>>, greater<pair<int, int>>> pq;
-    vector<int> disc(V, INT_MAX);  // Distance từ src đến các đỉnh
+    priority_queue < pair<long long, int>, vector < pair<long long, int>>, greater<pair<long long, int>>> pq;
+    vector<long long> disc(V, LLONG_MAX);  // Distance từ src đến các đỉnh
     vector<int> parent(V, -1);     // Mảng truy vết đường đi
     vector<bool> check(V, false);  // Kiểm tra đỉnh đã duyệt
     disc[src] = 0;
@@ -93,7 +93,7 @@ void JohnsonAlgorithm::Dijkstra(int src) {
 
 
 // In kết quả đường đi từ src
-void JohnsonAlgorithm::print(int src, vector<int>& parent, vector<int>& disc) {
+void JohnsonAlgorithm::print(int src, vector<int>& parent, vector<long long>& disc) {
     cout << "\nShortest paths from vertex " << src << ":\n";
     cout << " Dest | Path                      | Cost\n";
     cout << "-----------------------------------------------\n";
@@ -102,7 +102,7 @@ void JohnsonAlgorithm::print(int src, vector<int>& parent, vector<int>& disc) {
         if (src == dest) continue;
         cout << setw(5) << dest << " | ";
 
-        if (disc[dest] == INT_MAX) {
+        if (disc[dest] == LLONG_MAX) {
             cout << setw(25) << "No path" << " | INF\n";
         }
         else {
