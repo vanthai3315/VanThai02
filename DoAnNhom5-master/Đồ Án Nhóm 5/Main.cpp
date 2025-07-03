@@ -217,6 +217,7 @@ void menu(JohnsonAlgorithm& johnson, floydWarshall& floyd) {
 			cout << "1. Yes, print all paths." << endl;
 			cout << "0. No, skip printing." << endl;
 			cout << " --------------------------- " << endl;
+			cout << "Enter your choice: ";
 			cin >> subChoice;
 			johnson.show = subChoice;
 			floyd.show = subChoice;
